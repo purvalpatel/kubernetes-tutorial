@@ -188,5 +188,4 @@ Error
 Critical
 Alert
 Emergency
-
 ```
