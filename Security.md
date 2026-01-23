@@ -81,18 +81,13 @@ Monitoring <br>
 - Alertmanager
 
 ### 9. Kubernetes API Hardening
+- Disable unused APIs
+- Disable legacy auth
 
-Disable unused APIs
-
-Disable legacy auth
-
-Use admission controllers:
-
-PodSecurity
-
-OPA Gatekeeper
-
-Kyverno
+Use admission controllers: <br>
+- PodSecurity
+- OPA Gatekeeper
+- Kyverno
 
 Example Kyverno policy:
 ```
@@ -100,10 +95,22 @@ require runAsNonRoot=true
 ```
 
 ### 10. Node Security
-🔐 Harden nodes
+🔐 Harden nodes <br>
+- Minimal OS (COS, Bottlerocket)
+- Regular patching
+- Disable SSH where possible
 
-Minimal OS (COS, Bottlerocket)
+Falco:
+-----
+Falco monitors system calls and detects abnormal behaviour at runtime using rules and raises alerts. <br>
 
-Regular patching
+**Examples of things Falco can detect:** <br>
+- Shell opened inside a container (/bin/bash)
+- Container running as root
+- Writing to /etc/passwd
+- Crypto miner execution
+- Privilege escalation
+- Unexpected network connections
+<br>
 
-Disable SSH where possible
+⚠️ Falco does not prevent attacks — it detects and alerts. 
