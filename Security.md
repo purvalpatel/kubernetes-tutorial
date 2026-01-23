@@ -43,3 +43,4 @@ securityContext:
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.68.2 image python:3.4-alpine
 ```
+- This will show all the vulnerabilities of the image.
