@@ -114,3 +114,40 @@ Falco monitors system calls and detects abnormal behaviour at runtime using rule
 <br>
 
 ⚠️ Falco does not prevent attacks — it detects and alerts. 
+
+### Setup Falco:
+```
+helm repo add falcosecurity https://falcosecurity.github.io/charts
+helm repo update
+helm install falco falcosecurity/falco   --namespace falco   --create-namespace   --set driver.kind=ebpf
+```
+
+Check all the pods:
+```
+kubectl get all -n falco
+```
+Verify the Alerts are generating or not:
+Check logs of Falco:
+```
+kubectl logs falco-l559s -n falco -f
+```
+
+Login some pod and check the logs in falco are generating or not.
+```
+kubectl -n milvus exec -it milvus-etcd-0 -- /bin/sh
+```
+It should look like <br>
+<img width="1916" height="103" alt="image" src="https://github.com/user-attachments/assets/54ac6cfe-1d9c-42d9-a7d5-15fab134f5a0" />
+
+#### Troubleshooting
+If Falco pod is not running. <br>
+Prerequisites:
+```
+sudo sysctl fs.inotify.max_user_instances=8192
+sudo sysctl fs.inotify.max_user_watches=524288
+```
+Make persistent:
+```
+echo "fs.inotify.max_user_instances=8192" | sudo tee -a /etc/sysctl.conf
+echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
+```
