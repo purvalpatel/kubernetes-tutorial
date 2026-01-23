@@ -95,8 +95,9 @@ OPA Gatekeeper
 Kyverno
 
 Example Kyverno policy:
-
+```
 require runAsNonRoot=true
+```
 
 ### 10. Node Security
 🔐 Harden nodes
