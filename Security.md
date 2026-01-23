@@ -151,3 +151,43 @@ Make persistent:
 echo "fs.inotify.max_user_instances=8192" | sudo tee -a /etc/sysctl.conf
 echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
 ```
+
+### How to send alerts
+Below is the Falco Stack.
+```
+Falco
+  → Falcosidekick (router)
+      → Slack / Teams / Webhook / SIEM
+```
+Falco detects and Falcosidekick delivers. <br>
+
+### Flacosidekick setup: <br>
+Add repo,
+```
+helm repo add falcosecurity https://falcosecurity.github.io/charts
+helm repo update
+```
+install
+```
+helm install falcosidekick falcosecurity/falcosidekick \
+  -n falco \
+  --create-namespace
+
+```
+verify pods,
+```
+kubectl get pods -n falco
+```
+
+Create Slack incoming webhook
+```
+Settings → Apps → Incoming Webhooks → Add
+```
+Configure falcosidekick for slack webhook,
+```
+helm upgrade falcosidekick falcosecurity/falcosidekick \
+  -n falco \
+  --set config.slack.webhookurl="https://hooks.slack.com/services/XXX" \
+  --set config.slack.channel="#security-alerts" \
+  --set config.slack.username="Falco"
+```
