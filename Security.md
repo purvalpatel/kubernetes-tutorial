@@ -121,7 +121,6 @@ helm repo add falcosecurity https://falcosecurity.github.io/charts
 helm repo update
 helm install falco falcosecurity/falco   --namespace falco   --create-namespace   --set driver.kind=ebpf
 ```
-
 Check all the pods:
 ```
 kubectl get all -n falco
@@ -165,30 +164,30 @@ Falco detects and Falcosidekick delivers. <br>
 ### Flacosidekick setup: <br>
 Add repo,
 ```
-helm repo add falcosecurity https://falcosecurity.github.io/charts
-helm repo update
-```
-install
-```
-helm install falcosidekick falcosecurity/falcosidekick \
-  -n falco \
-  --create-namespace
-
-```
-verify pods,
-```
-kubectl get pods -n falco
+helm upgrade falco falcosecurity/falco -n falco \
+  --set falcosidekick.enabled=true \
+  --set falco.jsonOutput=true \
+  --set falco.httpOutput.enabled=true \
+  --set falco.httpOutput.url=http://falcosidekick:2801/ \
+  --set falcosidekick.config.minimumpriority=debug \
+  --set falcosidekick.config.slack.webhookurl="https://hooks.slack.com/services/T0XXX/B0XXX/XXXX" \
+  --set falcosidekick.config.slack.channel="#nuvo-alerts" \
+  --set falcosidekick.config.slack.username="Falco"
 ```
 
-Create Slack incoming webhook
+And done. you will start receiving alerts on slack: <br>
+
+<img width="1913" height="985" alt="image" src="https://github.com/user-attachments/assets/9aa29354-db3a-4c7b-88fa-b2f664dc092b" />
+
+#### Falco Priority lavels:
 ```
-Settings → Apps → Incoming Webhooks → Add
-```
-Configure falcosidekick for slack webhook,
-```
-helm upgrade falcosidekick falcosecurity/falcosidekick \
-  -n falco \
-  --set config.slack.webhookurl="https://hooks.slack.com/services/XXX" \
-  --set config.slack.channel="#security-alerts" \
-  --set config.slack.username="Falco"
+Debug
+Info
+Notice
+Warning
+Error
+Critical
+Alert
+Emergency
+
 ```
