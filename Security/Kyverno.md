@@ -1,4 +1,4 @@
-🚀 Benefits of Using Kyverno
+Benefits of Using Kyverno
 ----------------------------
 ### 1️⃣ Kubernetes-native (no new language)
 - Policies are pure YAML
