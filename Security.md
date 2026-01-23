@@ -150,9 +150,8 @@ Make persistent:
 echo "fs.inotify.max_user_instances=8192" | sudo tee -a /etc/sysctl.conf
 echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
 ```
-Another issue:
-- i have removed **prometheus** and **kiali** from the istio then it was stopped working. after adding it again it started again to get exec /bin/bash logs in falco pod. the investigation of this is pending.
-### How to send alerts
+
+### Send Alerts on Slack now:
 Below is the Falco Stack.
 ```
 Falco
