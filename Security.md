@@ -6,6 +6,7 @@ How to secure kubernetes cluster?
   - etcd
 - Never expose API server port to public internet.
 <br>
+
 **Restrict global access port of API server.** <br>
 **Disable Anonymous auth:** <br>
 ```
