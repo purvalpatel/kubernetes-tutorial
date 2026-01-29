@@ -82,3 +82,36 @@ Benefits of Using Kyverno
 - Large community
 - Enterprise-ready
 - No vendor lock-in
+
+### Install:
+```
+kubectl create -f https://github.com/kyverno/kyverno/releases/latest/download/install.yaml
+```
+### Create policy ( no latest image )
+```
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-latest-tag
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: no-latest
+    match:
+      resources:
+        kinds:
+        - Pod
+    validate:
+      message: "Image tag 'latest' is not allowed"
+      pattern:
+        spec:
+          containers:
+          - image: "!*:latest"
+
+```
+apply:
+```
+kubectl apply -f policy.yaml
+```
+🚫 Rejected immediately.
+
