@@ -22,28 +22,22 @@ Types of Admission controllers:
 2. Validating admission controller
 3. Both (webhook combo)
 
-### 1. Mutating admission controller
+### 1. Mutating admission controller ( Istio Sidecar )
 They change the requests
 - Add default labels
 - inject sidecars
 - add resource limits
 - add security contexts
 
-List webhookconfiguration.
-```
-kubectl get mutatingwebhookconfigurations
-```
-### 2. Validating admission controller
+
+### 2. Validating admission controller ( Pod Security )
 
 Validate and rejects.
 - Block pods running as root
 - Reject images using :latest
 - Enforce resource limits (CPU/memory must be set)
 
-List 
-```
-kubectl get validatingwebhookconfigurations
-```
+
 | Name                  | Purpose                            |
 | --------------------- | ---------------------------------- |
 | `NamespaceLifecycle`  | Prevent deleting system namespaces |
@@ -73,7 +67,12 @@ spec:
     limits.cpu: "4"
     limits.memory: 8Gi
 ```
-Now Kubernetes rejects pods exceeding limits.
+Now Kubernetes rejects pods exceeding limits. <br>
+
+List built-in admission controllers:
+```
+ps -ef | grep kube-apiserver
+```
 
 ### Pod Security Admission (Very Important 🔥)
 Replaced PodSecurityPolicy (PSP).
@@ -104,11 +103,29 @@ spec:
     securityContext:
       privileged: true
 ```
-It will get rejected.
+It will get rejected. <br>
+
+List pod security admission:
+```
+kubectl get ns --show-labels
+```
+it will show like `pod-security.kubernetes.io/enforce=restricted` <br>
 
 ### Use Admission Webhooks
 This is what teams actually use in production.
 
 - Kayverno (https://github.com/purvalpatel/kubernetes-tutorial/blob/94c7e7c114cddb30b1619cd479db38b295550ffb/Security/Kyverno.md)
 - Gatekeeper
+
+List webhookconfiguration.
+```
+kubectl get mutatingwebhookconfigurations
+```
+List validatingwebhookconfiguration.
+```
+kubectl get validatingwebhookconfigurations
+```
+
+<img width="784" height="94" alt="image" src="https://github.com/user-attachments/assets/03130eb8-2dbf-4cb3-93fa-33c935362298" />
+
 
