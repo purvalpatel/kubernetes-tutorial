@@ -28,6 +28,7 @@ They change the requests
 - add resource limits
 - add security contexts
 
+
 ### 2. Validating admission controller
 
 Validate and rejects.
@@ -48,7 +49,23 @@ Validate and rejects.
 - Use built-in admission controllers
 - Use Pod Security Admission
 - Use Webhook-based controllers
-
+  
+### Use Built-in Admission Controllers (Most are already ON)
+example,
+```
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: cpu-mem-quota
+  namespace: dev
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: 4Gi
+    limits.cpu: "4"
+    limits.memory: 8Gi
+```
+Now Kubernetes rejects pods exceeding limits.
 
 ### Pod Security Admission (Very Important 🔥)
 Replaced PodSecurityPolicy (PSP).
@@ -65,3 +82,25 @@ Now pods must: <br>
 - Not run as root
 - Not use privileged mode
 - Drop dangerous Linux capabilities
+
+Now create bad pod:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bad-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    securityContext:
+      privileged: true
+```
+It will get rejected.
+
+### Use Admission Webhooks
+This is what teams actually use in production.
+
+- Kayverno
+- Gatekeeper
+
