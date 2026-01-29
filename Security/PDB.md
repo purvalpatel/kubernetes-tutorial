@@ -18,4 +18,12 @@ From your app’s point of view:
 ```TEXT
 “If too many pods go down together, users will feel it.”
 ```
-**PDB is the contract between Kubernetes and your application.**
+**PDB is the contract between Kubernetes and your application.** <br>
+**“When you (Kubernetes) choose to evict pods, don’t evict too many at once.”**
+
+### When PDB is absolutely necessary
+✔ Stateful apps <br>
+✔ APIs with SLAs <br>
+✔ Databases (with replicas) <br>
+✔ Message brokers <br>
+✔ Any user-facing production service <br>
