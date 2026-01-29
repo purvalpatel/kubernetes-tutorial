@@ -20,8 +20,9 @@ etcd
 Types of Admission controllers:
 1. Mutating admission controller
 2. Validating admission controller
+3. Both (webhook combo)
 
-### 1. Mutating webhook admission controller
+### 1. Mutating admission controller
 They change the requests
 - Add default labels
 - inject sidecars
@@ -32,7 +33,7 @@ List webhookconfiguration.
 ```
 kubectl get mutatingwebhookconfigurations
 ```
-### 2. Validating webhook admission controller
+### 2. Validating admission controller
 
 Validate and rejects.
 - Block pods running as root
