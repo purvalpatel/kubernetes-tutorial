@@ -66,20 +66,20 @@ kubectl create namespace sonarqube
 ```
 Create Values.yaml
 ```
-# REQUIRED for new Helm charts
 community:
   enabled: true
 
 # REQUIRED monitoring protection
 monitoringPasscode: "sonar-monitor-123"
 
+service:
+  type: NodePort
+  nodePort: 30090
+
+
 sonarqube:
   image:
     tag: lts
-
-  service:
-    type: NodePort
-    nodePort: 30090
 
   persistence:
     enabled: true
@@ -92,6 +92,7 @@ sonarqube:
     limits:
       cpu: "2"
       memory: "4Gi"
+
 ```
 
 Install:
