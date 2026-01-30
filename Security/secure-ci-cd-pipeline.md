@@ -8,13 +8,13 @@ Secure CICD Pipeline:
 
 
 ### 1. Static Application Security Testing
-Scans source code for: <br>
+**Scans source code for:** <br>
 - SQL injection
 - Hardcoded secrets
 - Insecure functions
 - OWASP Top 10 issues
 
-Popular tools: <br>
+**Popular tools:** <br>
 - SonarQube ⭐
 - Semgrep
 - Checkmarx
