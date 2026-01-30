@@ -140,6 +140,12 @@ sudo ln -s /opt/sonar-scanner-8.0.1.6346-linux-x64/bin/sonar-scanner sonar-scann
 
 Now you can run scans:
 ```
-sonar-scanner   -Dsonar.projectKey=Microservices-POC   -Dsonar.sources=.   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=sqp_acb2a6546a02df8ce1acb566d1928d89ae393f7f
+cd $project-folder
+sduo sonar-scanner   -Dsonar.projectKey=Microservices-POC   -Dsonar.sources=.   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=sqp_acb2a6546a02df8ce1acb566d1928d89ae393f7f
 ```
+Output will be like, <br>
+<img width="1443" height="129" alt="image" src="https://github.com/user-attachments/assets/0cfc974a-fbaf-4dcd-a785-bbd2b2e6242a" />
+
+You can check the same in browser:
+<img width="1569" height="1000" alt="image" src="https://github.com/user-attachments/assets/70f79a64-de09-4833-a6e8-d44d0f77ff7f" />
 
