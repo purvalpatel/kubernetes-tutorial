@@ -55,3 +55,48 @@ Output will be like, <br>
 You can check the same in browser:
 <img width="1569" height="1000" alt="image" src="https://github.com/user-attachments/assets/70f79a64-de09-4833-a6e8-d44d0f77ff7f" />
 
+
+Setup with Kubernetes Helm:
+--------------------------
+```
+helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
+helm repo update
+helm search repo sonarqube
+kubectl create namespace sonarqube
+```
+Create Values.yaml
+```
+# REQUIRED for new Helm charts
+community:
+  enabled: true
+
+# REQUIRED monitoring protection
+monitoringPasscode: "sonar-monitor-123"
+
+sonarqube:
+  image:
+    tag: lts
+
+  service:
+    type: NodePort
+    nodePort: 30090
+
+  persistence:
+    enabled: true
+    size: 10Gi
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "2Gi"
+    limits:
+      cpu: "2"
+      memory: "4Gi"
+```
+
+Install:
+```
+helm install sonarqube sonarqube/sonarqube \
+  -n sonarqube \
+  -f values.yaml
+```
