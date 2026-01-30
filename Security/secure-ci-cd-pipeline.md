@@ -15,7 +15,7 @@ Secure CICD Pipeline:
 - OWASP Top 10 issues
 
 **Popular tools:** <br>
-- SonarQube ⭐
+- [SonarQube](https://github.com/purvalpatel/kubernetes-tutorial/blob/286474abc5b98110c990d46de5dc8af9bee26339/Security/SonarQube.md) ⭐
 - Semgrep
 - Checkmarx
 - CodeQL
