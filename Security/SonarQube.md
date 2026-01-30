@@ -101,3 +101,42 @@ helm install sonarqube sonarqube/sonarqube \
   -n sonarqube \
   -f values.yaml
 ```
+
+Integrate SonarQube into Gitlab CICD:
+-------------------------------------
+### Create Project on Sonarqube 
+
+### Create `.gitlab-ci.yml`
+```
+stages:
+  - test
+  - sonar
+
+sonarqube_scan:
+  stage: sonar
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "git-cicd-basic/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: sonar
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+      -Dsonar.projectKey=git-cicd-basic
+      -Dsonar.sources=.
+      -Dsonar.host.url=$SONAR_HOST_URL
+      -Dsonar.login=$SONAR_TOKEN
+  only:
+    - merge_requests
+    - main
+```
+
+### Add Below variables into CICD:
+- SONAR_TOKEN
+- SONAR_HOST_URL
+
+### Make branch protected.
