@@ -45,7 +45,7 @@ Since both versions may run briefly at the same time, DB changes must be: <br>
 
 That’s the golden rule. <br>
 
-### Below is the deployment Manifest files:
+## Deployment Manifests:
 
 Blue Deployment (Live)
 ```
