@@ -39,15 +39,11 @@ For rollback chnage key in service, `version: blue` <br>
 
 Since both versions may run briefly at the same time, DB changes must be: <br>
 
-- Backward Compatible
+- **Backward Compatible** (New database changes do NOT break the old application version)
 
 <br>
 
 That’s the golden rule. <br>
-
-### Solution:
-**Use backward compatible schema.** <br>
-New database changes do NOT break the old application version
 
 ### Below is the deployment Manifest files:
 
