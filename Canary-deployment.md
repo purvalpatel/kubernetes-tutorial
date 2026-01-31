@@ -158,15 +158,15 @@ http:
     weight: 10
 ```
 
-Change weights safely.
+### Change weights safely.
 
 🧪 Canary + Database (Important)
 
-Same rules as Blue-Green:
+### Same rules as Blue-Green:
 
-✅ Backward compatible schema
-✅ Feature flags
-❌ Breaking DB changes
+- ✅ Backward compatible schema
+- ✅ Feature flags
+- ❌ Breaking DB changes
 
 🚀 Production Canary Flow
 ```
