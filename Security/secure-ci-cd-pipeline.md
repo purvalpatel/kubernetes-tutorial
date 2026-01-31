@@ -46,6 +46,7 @@ Secure CICD Pipeline:
 - Gitleaks ⭐
 - TruffleHog
 - GitGuardian
+- [Git-Secrets](https://github.com/purvalpatel/DevSecOps/blob/c0e74b297a661f1e8b63999200fd0b20177d29e9/git-secret.md) ⭐
 
 ### 4. Container Image Scanning 🐳 (MOST COMMON)
 **Scans Docker images for:** <br>
