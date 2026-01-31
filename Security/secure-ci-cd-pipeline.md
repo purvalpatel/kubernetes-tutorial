@@ -32,7 +32,7 @@ Secure CICD Pipeline:
 - Popular tools
 - Snyk ⭐
 - OWASP Dependency-Check
-- Trivy ⭐
+- [Trivy](https://github.com/purvalpatel/docker/blob/90f6f17d09efbfb8012c6347ded406d39444a16e/Security/Trivy.md) ⭐
 - GitHub Dependabot
 
 ### 3. Secret Scanning
