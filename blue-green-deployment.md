@@ -18,8 +18,30 @@
 - Service : `version : blue` (Traffic switch key)
 Just change the version : green to switch <br>
 
-For rollback chnage key in service, `version: blue`
+For rollback chnage key in service, `version: blue` <br>
 
+
+**Blue-Green = two application versions, not two databases.**
+
+### ✅ Standard Production Setup (MOST COMMON) <br>
+```
+           Users
+             |
+        Load Balancer
+             |
+        Blue / Green App
+             |
+        Shared Database
+```
+### ⚠️ The REAL Challenge: Database Compatibility <br>
+
+Since both versions may run briefly at the same time, DB changes must be: <br>
+
+- Backward Compatible
+
+<br>
+
+That’s the golden rule. <br>
 
 ### Below is the deployment Manifest files:
 
