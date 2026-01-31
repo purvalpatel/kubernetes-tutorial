@@ -21,6 +21,8 @@ Just change the version : green to switch <br>
 For rollback chnage key in service, `version: blue` <br>
 
 
+## Database compatibility:
+
 **Blue-Green = two application versions, not two databases.**
 
 ### ✅ Standard Production Setup (MOST COMMON) <br>
