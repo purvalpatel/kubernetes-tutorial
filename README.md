@@ -268,5 +268,6 @@ Kubernetes Object Categories:
 
 
 ## Production ready Architecture:
-<img width="884" height="851" alt="kubernetesdeployment drawio" src="https://github.com/user-attachments/assets/82ef19c9-5753-41ef-a025-4709fc015fca" />
+<img width="884" height="851" alt="Kubernetes-deployment-prod" src="https://github.com/user-attachments/assets/20e8726b-ea4b-4682-aeea-a933b1dcbd8a" />
+
 
