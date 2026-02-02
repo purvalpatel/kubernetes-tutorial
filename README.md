@@ -266,3 +266,7 @@ Kubernetes Object Categories:
 | **API Extensions**             | CRD, APIService, Webhooks                                       |
 | **Full Routing (Gateway API)** | GatewayClass, Gateway, HTTPRoute, TCPRoute, UDPRoute, GRPCRoute |
 
+
+## Production ready Architecture:
+<img width="884" height="851" alt="kubernetesdeployment drawio" src="https://github.com/user-attachments/assets/82ef19c9-5753-41ef-a025-4709fc015fca" />
+
