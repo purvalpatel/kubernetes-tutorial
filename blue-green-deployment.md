@@ -114,3 +114,15 @@ spec:
   - port: 80
     targetPort: 8080
 ```
+
+Best Strategy: <br>
+Argo Rollouts + Kubernetes Service
+
+| Feature         | K8s Deploy | Ingress | Service Mesh | Argo Rollouts |
+| --------------- | ---------- | ------- | ------------ | ------------- |
+| Rolling update  | ✔          | ✔       | ✔            | ✔             |
+| Canary          | ⚠️ Limited | ✔       | ✔            | ✔             |
+| Blue-Green      | ✔          | ✔       | ✔            | ✔             |
+| Auto rollback   | ❌          | ❌       | ❌            | ✔             |
+| Metrics gate    | ❌          | ❌       | ❌            | ✔             |
+| GitOps friendly | ⚠️         | ⚠️      | ✔            | ⭐✔            |
