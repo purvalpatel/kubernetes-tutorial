@@ -268,7 +268,8 @@ Kubernetes Object Categories:
 
 
 ## Production ready Architecture:
-<img width="1264" height="851" alt="Untitled Diagram drawio(1)" src="https://github.com/user-attachments/assets/b1151af8-f401-48d5-a3d5-676a540a9453" />
+<img width="1401" height="851" alt="Untitled Diagram drawio(2)" src="https://github.com/user-attachments/assets/982204d0-19b3-47ac-90c5-656ad6382e3f" />
+
 
 
 
