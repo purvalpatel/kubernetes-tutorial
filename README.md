@@ -11,7 +11,7 @@ Project deployment links - https://github.com/purvalpatel/Sample-mlops-project
 
 Kubernetes cluster components:
 ------------------------------
-
+https://github.com/purvalpatel/kubernetes-tutorial/edit/main/README.md
 Cluster contains two type of resources.
 1. Control plane		- cordinates the cluster ( responsible for managing cluster)
    - Cloud-Controller-manager
@@ -268,6 +268,7 @@ Kubernetes Object Categories:
 
 
 ## Production ready Architecture:
-<img width="884" height="851" alt="Kubernetes-deployment-prod" src="https://github.com/user-attachments/assets/20e8726b-ea4b-4682-aeea-a933b1dcbd8a" />
+<img width="1264" height="851" alt="Untitled Diagram drawio" src="https://github.com/user-attachments/assets/0fd1dc24-fa07-4014-b64d-03337088c793" />
+
 
 
