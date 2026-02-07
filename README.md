@@ -16,7 +16,10 @@ Cluster info:
 ```
 kubectl cluster-info --context kind-kind
 ```
-
+Delete cluster (Optional): 
+```
+kind delete cluster
+```
 Basics of kubernetes cluster:
 ----------------------------
 1. Create kubernetes cluster
