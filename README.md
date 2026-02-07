@@ -39,6 +39,12 @@ Apply command:
 ```
 kind create cluster --name dev-cluster --config kind-cluster.yml
 ```
+You can check the nodes:
+```
+kubectl get nodes
+```
+<img width="671" height="114" alt="image" src="https://github.com/user-attachments/assets/53e9269a-9ef5-4caf-9177-c2ff048ffbe6" />
+
 
 Basics of kubernetes cluster:
 ----------------------------
