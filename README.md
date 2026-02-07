@@ -20,6 +20,26 @@ Delete cluster (Optional):
 ```
 kind delete cluster
 ```
+
+Create KinD Cluster with multiple nodes:
+- Remove the existing cluster
+- Create kind-cluster.yml
+```
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+  - role: worker   # new node
+
+```
+Apply command:
+```
+kind create cluster --name dev-cluster --config kind-cluster.yml
+```
+
 Basics of kubernetes cluster:
 ----------------------------
 1. Create kubernetes cluster
