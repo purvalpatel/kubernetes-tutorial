@@ -1,3 +1,22 @@
+Setup Local Kubernetes Cluster (KinD)
+---------------
+- This is the kubernetes cluster running on single node and inside physical node multiple containers are running as virtual node. this is for developement testing cluster.
+
+Installation:
+```
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-$(uname)-amd64
+chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind
+kind version
+```
+Create Cluster:
+```
+kind create cluster
+```
+Cluster info:
+```
+kubectl cluster-info --context kind-kind
+```
+
 Basics of kubernetes cluster:
 ----------------------------
 1. Create kubernetes cluster
