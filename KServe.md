@@ -68,16 +68,20 @@ Use KServe if:
 Installation:
 ----
 
-1. Setup cert-manager CRDS first.
+1. Setup `cert-manager` first.
 ```
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 ```
 
-2. Setup Kserve
+2. Setup `Kserve`
 ```
 kubectl apply -f https://github.com/kserve/kserve/releases/download/v0.11.0/kserve.yaml
 ```
 <img width="1210" height="590" alt="image" src="https://github.com/user-attachments/assets/7610a12d-cf75-4861-a59b-a03b86151db5" />
 
 
-
+3. Install `Knative`
+```
+kubectl apply -f https://github.com/knative/serving/releases/latest/download/serving-crds.yaml
+kubectl apply -f https://github.com/knative/serving/releases/latest/download/serving-core.yaml
+```
