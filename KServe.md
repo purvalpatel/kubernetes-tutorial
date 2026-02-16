@@ -65,4 +65,19 @@ Use KServe if:
 - You serve multiple models
 - You want production-grade ML infra
 
+Installation:
+----
+
+1. Setup cert-manager CRDS first.
+```
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+```
+
+2. Setup Kserve
+```
+kubectl apply -f https://github.com/kserve/kserve/releases/download/v0.11.0/kserve.yaml
+```
+<img width="1210" height="590" alt="image" src="https://github.com/user-attachments/assets/7610a12d-cf75-4861-a59b-a03b86151db5" />
+
+
 
