@@ -54,3 +54,103 @@ apply:
 ```
 kubectl apply -k .
 ```
+
+Capabilities of kustomize:
+------------------------
+### 1️⃣ Combine Multiple Resources:
+```
+resources:
+  - deployment.yaml
+  - service.yaml
+  - hpa.yaml
+```
+This tells Kustomize: <br>
+Combine these into one final output.
+
+### 2️⃣ Override Container Images
+```
+images:
+  - name: docker.merai.app/numol/user-service
+    newTag: abc123
+```
+Overrides image tag without editing deployment file. <br>
+
+Very useful for CI/CD.
+
+### 3️⃣ Add Labels to Everything
+```
+commonLabels:
+  app: numol
+  environment: dev
+```
+Adds labels to:
+- Deployments
+- Services
+- Pods
+- Everything
+
+### 4️⃣ Add Annotations Globally
+```
+commonAnnotations:
+  owner: devops
+```
+
+### 5️⃣ Change Namespace Automatically
+```
+namespace: numol-dev
+```
+Applies namespace to all resources.
+
+### 6️⃣ Add Name Prefix or Suffix
+```
+namePrefix: dev-
+nameSuffix: -v1
+```
+Transforms:
+```
+user-service → dev-user-service-v1
+```
+Useful for multiple environments.
+
+### 7️⃣ Modify Specific Fields (Patching)
+
+You can modify:
+- replicas
+- resources
+- env vars
+- probes
+- any field
+
+Using: <br>
+patches: <br>
+or
+```
+patchesStrategicMerge:
+```
+### 8️⃣ Generate ConfigMaps
+
+Instead of writing YAML manually:
+```
+configMapGenerator:
+  - name: app-config
+    literals:
+      - LOG_LEVEL=debug
+      - FEATURE_FLAG=true
+```
+Kustomize generates full ConfigMap.
+
+### 9️⃣ Generate Secrets
+```
+secretGenerator:
+  - name: db-secret
+    literals:
+      - password=abc123
+```
+### 🔟 Manage Multiple Environments (Overlay Pattern)
+
+You can create:
+```
+base/
+overlays/dev/
+overlays/prod/
+```
