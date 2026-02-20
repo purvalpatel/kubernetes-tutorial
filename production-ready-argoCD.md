@@ -175,3 +175,10 @@ images:
   - name: docker.xxx.app/devops/sbdd-service
     newTag: latest
 ```
+And command will be
+```
+argocd app set devops-test \
+  --kustomize-image docker.xxx.app/devops/user-service:$IMAGE_TAG \
+  --kustomize-image docker.xxx.app/devops/project-service:$IMAGE_TAG \
+  --kustomize-image docker.xxx.app/devops/sbdd-service:$IMAGE_TAG
+```
