@@ -164,3 +164,14 @@ Note: <br>
 - kustomization.yaml Image tag will overwrite the image tag added into `k8s/deployment.yml`.
 - `argocd app set devops-test` command will overwrite the image tag.
 - This tag will not change into gitlab kustomization.yaml but directly changed into deployment.
+
+If want to add multiple images then do like this in `kustomization.yaml` <br>
+```
+images:
+  - name: docker.xxx.app/devops/user-service
+    newTag: latest
+  - name: docker.xxx.app/devops/project-service
+    newTag: latest
+  - name: docker.xxx.app/devops/sbdd-service
+    newTag: latest
+```
