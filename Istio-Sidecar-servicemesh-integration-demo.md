@@ -1,0 +1,91 @@
+```
+metrics -> Prometheus -> Grafana
+Logs -> Loki -> Grafana
+Traces -> Jaeger/Tempo -> UI
+```
+
+### Step 1: 
+Istio Sidecar injected with the namespace.
+
+### Step 2:
+Ensure Ingress & Sidecards expose metrics on port 15090.
+```
+kubectl get all -n istio-system
+```
+<img width="1494" height="203" alt="image" src="https://github.com/user-attachments/assets/7efb0f8c-c0c1-4bd3-90d2-22241d6f0c79" />
+
+If it is not showing then add it,
+Edit istio-ingressgateway sevrice:
+```
+kubectl edit service istio-ingressgateway -n istio-system
+```
+Add below line,
+```
+  - name: http-envoy-prom
+    nodePort: 32170
+    port: 15090
+    protocol: TCP
+    targetPort: 15090
+
+```
+Rollout restart deployment:
+```
+kubectl rollout restart deployment istiod -n istio-system
+```
+
+### Step 3:
+Scrape sidecards using `podmonitor`.
+create `podmonitor.yaml`
+```
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: istio-proxy
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+### matches pods which have label: app: nginx
+    matchLabels:
+      app: nginx
+  podMetricsEndpoints:
+    - port: http-envoy-prom
+      path: /stats/prometheus
+      interval: 15s
+```
+- Here `Selector` match label will match the pod labels named `nginx`. and scrape metrics from the pods directly.
+- You can check the End Point from the prometheus.
+<img width="1913" height="451" alt="image" src="https://github.com/user-attachments/assets/fefdbcf5-51ef-432b-99b9-425f08e92caa" />
+- Here two endpoints are showing, each for the pod.
+- `PodMonitor` matches label, not pods, If we use PodMonitor then ServiceMonitor is not required.
+- `ServiceMonitor` : Finds the kubernetes service that match this `selector`, then scrape their endpoint.
+- `PodMonitor` : finds the pods that match this `selector` directly.
+
+```
+Istio Sidecar
+   |
+Metrics
+   |
+Pod Monitor
+   |
+Prometheus
+   |
+Grafana
+```
+
+### Step 4: Now Create Per Pod Traffic Dashboard in Grafana:
+1. Per Pod Traffic
+```
+sum(rate(istio_requests_total{namespace="devops-test"}[1m])) by (pod)
+```
+2. P95 Latency
+```
+histogram_quantile(
+  0.95,
+  sum(rate(istio_request_duration_milliseconds_bucket{namespace="devops-test"}[5m])) by (le)
+)
+```
+   
