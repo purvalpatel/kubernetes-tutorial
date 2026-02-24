@@ -1,8 +1,11 @@
+Observability with servicemesh:
+------------------------------
 ```
 metrics -> Prometheus -> Grafana
 Logs -> Loki -> Grafana
 Traces -> Jaeger/Tempo -> UI
 ```
+**Here we are testing for the 1st one. metrics collection with servicemesh.**
 
 ### Step 1:  Istio Sidecar injected with the namespace.
 
@@ -104,4 +107,18 @@ histogram_quantile(
   sum(rate(istio_request_duration_milliseconds_bucket{namespace="devops-test"}[5m])) by (le)
 )
 ```
-   
+3. Request rate per service
+```
+sum(rate(istio_requests_total[1m])) by (destination_service)
+```
+4. Error Rate
+```
+sum(rate(istio_requests_total{namespace="devops-test",response_code=~"5.."}[1m]))
+/
+sum(rate(istio_requests_total{namespace="devops-test"}[1m]))
+```
+
+5. Traffic Volume:
+```
+sum(rate(istio_requests_total{namespace="devops-test"}[1m]))
+```
