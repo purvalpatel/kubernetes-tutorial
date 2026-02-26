@@ -306,10 +306,16 @@ kubectl get all -n observability
 ```
 <img width="1909" height="248" alt="image" src="https://github.com/user-attachments/assets/8d1d6f16-bc19-4912-b25f-9b0a4367a6ce" />
 
-Now application should send metrics on opentelemetry - `http://otel-collector.observability.svc.cluster.local:4317`
+Now application should send metrics on opentelemetry - `http://otel-collector.observability.svc.cluster.local:4317` <br>
 
 
-So keeping this part on hold from here.
+So keeping this part on hold from here. <br>
+
+Allow Jaeger to open in browser:
+```
+kubectl patch svc jaeger -n observability -p '{"spec": {"type": "NodePort"}}'}'
+```
+you can use NodePort of `http://localhost:16686`
 
 ### Remove everything: [optional]
 ```
