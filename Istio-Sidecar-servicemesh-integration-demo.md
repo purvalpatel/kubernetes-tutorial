@@ -322,3 +322,4 @@ you can use NodePort of `http://localhost:16686`
 helm uninstall jaeger -n observability
 helm uninstall otel-collector -n observability
 ```
+<img width="1912" height="788" alt="image" src="https://github.com/user-attachments/assets/0ea7b61e-471d-483e-b1f1-a3a5b709ea35" />
