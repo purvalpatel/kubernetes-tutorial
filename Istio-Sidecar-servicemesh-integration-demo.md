@@ -196,8 +196,41 @@ Check the connectivity now from Grafana: <br>
 <img width="835" height="233" alt="image" src="https://github.com/user-attachments/assets/ee33b251-3f75-42a9-8e30-ae3267b25183" />
 
 ### Create Grafana dashboard:
-- Add visualization -> Type (logs) -> Set "Panel name"
-Query for each deployment.
+<img width="730" height="144" alt="image" src="https://github.com/user-attachments/assets/a5428992-1fcf-4167-b69e-c241db242020" />
+
+- Create Dashboard which have option to select namespace and all deployment under that namespace.
+
+1. Create Dashboard first.
 ```
-{namespace="numol", app="deployment-name"}
+Add visualization -> Type (logs) -> Set "Panel name"
 ```
+2. Add variables
+- Dashboard -> Settings -> variables
+- Add Variable
+- Variable Type : `Query`
+- Name : `namespace`
+- Hide: `nothing`
+- Data Source : `Loki`
+- Query Type: `Label values`
+- Label: `namespace`
+- Selection Option: check `multi value`, `Include all option`
+- Save.
+
+**Add Another variable**
+- Add variable
+- Variable type: `Query`
+- Name: `deployment`
+- Hide: `nothing`
+- Data source: `Loki`
+- Query type: `Label values`
+- Label: `app`     ( check label from Explore -> Loki )
+- Stream selector : `{namespace=~"$namespace"}`
+- Selection Option: check `multi value`, `Include all option`
+- Save.
+
+3. Add widget now
+- Visualization - `logs`
+- Query : `{namespace=~"$namespace", app=~"$deployment"}`
+- Panel Name: `Logs - $namespace / $deployment`
+
+<img width="1062" height="404" alt="image" src="https://github.com/user-attachments/assets/a044dba2-6a9b-4352-bb69-1469b31360d4" />
