@@ -126,20 +126,61 @@ Export dashboard JSON : https://github.com/purvalpatel/kubernetes-tutorial/blob/
 
 
 
-## Logs Monitoring
-
+## Logs Monitoring with Loki
+- Note Loki `2.x.x` version ins not compatible with Grafana `12.x.x` version. the issue is loki is not connecting grafana from web ui. either connectivity works from backend. so for that need to use new version i.e. `3.x.x`.
+- check Grafana version : `kubectl describe pod prometheus-grafana-6444876565-84p67 -n monitoring | grep Image`
+- check loki version: `kubectl -n monitoring get pod loki-0 -o jsonpath="{.spec.containers[*].image}"`
 Install Loki
 ```
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
-
-helm install loki grafana/loki-stack \
-  --namespace monitoring \
-  --create-namespace
 ```
+Create `values.yaml`
+```
+loki:
+  auth_enabled: false
+
+  commonConfig:
+    replication_factor: 1
+
+  storage:
+    type: filesystem
+
+  schemaConfig:
+    configs:
+      - from: 2024-01-01
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+
+singleBinary:
+  replicas: 1
+
+deploymentMode: SingleBinary
+
+read:
+  replicas: 0
+write:
+  replicas: 0
+backend:
+  replicas: 0
+```
+Install
+```
+helm install loki grafana/loki \
+  -n monitoring \
+  -f loki-values.yaml
+```
+
 Verify it is being installed or not:
 ```
 helm list -n monitoring
 
 kubectl get pods -n monitoring
 ```
+
+Check the connectivity now from Grafana: <br>
+<img width="835" height="233" alt="image" src="https://github.com/user-attachments/assets/ee33b251-3f75-42a9-8e30-ae3267b25183" />
