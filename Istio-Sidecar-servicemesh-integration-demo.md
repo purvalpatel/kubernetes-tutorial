@@ -8,6 +8,9 @@ Traces -> Jaeger/Tempo -> UI
 **Here we are testing for the 1st one. metrics collection with servicemesh.**
 
 ### Step 1:  Istio Sidecar injected with the namespace.
+```
+kubectl label namespace numol istio-injection=enabled
+```
 
 ### Step 2: Ensure Ingress & Sidecards expose metrics on port 15090.
 **List resources:**
