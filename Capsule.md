@@ -123,4 +123,35 @@ spec:
 ```
 Now, members of ml-team will be able to create namespaces without requiring admin intervention. <br>
 
-To monitor tenant usage (e.g., CPU, memory, GPU), you can use Kubernetes-native tools like Prometheus along with Capsule-specific metrics. <Br>
+To monitor tenant usage (e.g., CPU, memory, GPU), you can use Kubernetes-native tools like Prometheus along with Capsule-specific metrics. <dr>
+
+After creating tenants and namespaces, you need to assign roles and set up permissions to allow users (or groups) to interact with resources within the tenant. <br>
+
+4. RoleBindings and Access Control
+
+Role-binding.yaml
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ml-team-admin
+  namespace: ml-dev
+subjects:
+  - kind: Group
+    name: ml-team
+roleRef:
+  kind: Role
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
+```
+`kind`: Group and name: ml-team specify that the role is granted to the ml-team group. <br>
+`roleRef` defines that the group will have the admin role within the ml-dev namespace.
+Apply:
+```
+kubectl apply -f rolebinding-ml-team-admin.yaml
+```
+
+Validate access:
+```
+kubectl auth can-i create deployments --namespace=ml-dev
+```
