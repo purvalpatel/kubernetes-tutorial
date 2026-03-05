@@ -4,17 +4,17 @@ Introduction
 - Deploy,Scale and Manage ML Models In production.
 
 ### In Simple words:
-- K8s Manages Containers.
-- Kserve Manages ML Models.
+- **K8s** Manages Containers.
+- **Kserve** Manages ML Models.
 
-Traditional Kubernetes Deployment contains:
+**Traditional Kubernetes Deployment** contains:
 - Deployment,
 - Services
 - Autoscales
 - Rollouts
 - etc.
 
-Kserve:
+**Kserve** contains:
 - Deploy Models and make it available as an API.
 
 ### Why Kserve?
@@ -32,6 +32,9 @@ Kserve:
 - Exposes endpoint
 - Handles scaling up/down
 
+```
+Training -> Save Model -> Deployment with Kserve -> Application sends requests -> Models returns prediction.
+```
 ## Real World Use Case 1 — API Serving
 - Deploy All Models
 - Scale based on traffic
