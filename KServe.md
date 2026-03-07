@@ -79,6 +79,10 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/do
 2. Setup `Kserve`
 ```
 kubectl apply -f https://github.com/kserve/kserve/releases/download/v0.11.0/kserve.yaml
+
+If error then try latest version:
+kubectl apply -f https://github.com/kserve/kserve/releases/latest/download/kserve.yaml
+
 ```
 <img width="1210" height="590" alt="image" src="https://github.com/user-attachments/assets/7610a12d-cf75-4861-a59b-a03b86151db5" />
 
