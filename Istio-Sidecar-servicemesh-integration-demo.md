@@ -31,7 +31,7 @@ Add below line,
     nodePort: 32170
     port: 15090
     protocol: TCP
-    targetPort: 15090
+    targetPort: 15090  # <-- This is the port of Envoy side car. that needs to be expose. to ingress controller
 
 ```
 **Rollout restart deployment:**
