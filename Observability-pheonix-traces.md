@@ -191,3 +191,192 @@ Phoenix (OTLP exporter)
 
 <img width="1917" height="892" alt="image" src="https://github.com/user-attachments/assets/ee8a8c73-e447-47d2-a03a-f66052717f21" />
 
+
+## Prompt, traces monitoring
+> Currentlt the tracing mechanism is working only for network traffic, Not LLM logic.
+
+So it shows,
+- URL
+- Status code
+- Request/Response size
+- Request/Response time
+- body etc.
+
+This data comes from the `envoy proxy`.
+
+- But it will not show the Promt, token, this lived inside the request body.
+
+> Istio does not parse the request body. <br>
+This information is only visible to the application that actually calls the model.
+
+```
+client -> Istio ingressgateway -> Envoy proxy -> OpenTelemetry Collector -> Phoenix
+```
+
+To get this type of details, something must run code that knows the prompt and response. <br>
+
+So we need one application that runs between the ingress gateway and vLLM. which we can call as  API Service.
+```
+client -> Istio ingressgateway -> API Service -> vLLM service -> vLLM Pod -> GPU
+```
+
+> Istio : networking, routing, security <br>
+API Services: Prompt processing, logging, tracing <br>
+vLLM : GPU inference. <br>
+
+### Create API service
+
+Create directory:
+```
+llm-api/
+ ├── app.py
+ ├── requirements.txt
+ └── Dockerfile
+```
+
+### FastAPI gateway (app.py)
+
+This gateway forwards requests to vLLM and sends traces.
+```
+from fastapi import FastAPI, Request
+import requests
+import os
+
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+trace.set_tracer_provider(TracerProvider())
+
+exporter = OTLPSpanExporter(
+    endpoint="otel-collector-opentelemetry-collector.observability.svc.cluster.local:4317",
+    insecure=True
+)
+
+trace.get_tracer_provider().add_span_processor(
+    BatchSpanProcessor(exporter)
+)
+
+tracer = trace.get_tracer(__name__)
+
+app = FastAPI()
+FastAPIInstrumentor.instrument_app(app)
+
+VLLM_URL = os.getenv("VLLM_URL", "http://nucurate-model-service.vllm.svc.cluster.local:8000")
+
+@app.post("/v1/chat/completions")
+async def chat(req: Request):
+
+    body = await req.json()
+
+    with tracer.start_as_current_span("llm_request") as span:
+
+        span.set_attribute("llm.model", body.get("model"))
+
+        if "messages" in body:
+            span.set_attribute("llm.prompt_preview", str(body["messages"])[:200])
+
+        r = requests.post(
+            f"{VLLM_URL}/v1/chat/completions",
+            json=body
+        )
+
+        span.set_attribute("llm.status_code", r.status_code)
+
+        return r.json()
+```
+
+requirements.txt
+```
+fastapi
+uvicorn
+requests
+opentelemetry-sdk
+opentelemetry-exporter-otlp
+opentelemetry-instrumentation-fastapi
+```
+
+Dockerfile
+```
+FROM python:3.11
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY app.py .
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+Build and push:
+```
+docker build -t <registry>/llm-api:latest .
+docker push <registry>/llm-api:latest
+```
+Kubernetes deployment
+``` 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-api
+  namespace: vllm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm-api
+  template:
+    metadata:
+      labels:
+        app: llm-api
+    spec:
+      containers:
+      - name: api
+        image: <registry>/llm-api:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: VLLM_URL
+          value: http://nucurate-model-service.vllm.svc.cluster.local:8000
+```
+Service
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: llm-api-service
+  namespace: vllm
+spec:
+  selector:
+    app: llm-api
+  ports:
+  - port: 8000
+    targetPort: 8000
+```
+
+### Update Istio routing
+
+Change your VirtualService so traffic goes to the API instead of vLLM directly.
+```
+route:
+- destination:
+    host: llm-api-service
+    port:
+      number: 8000
+```
+
+Your request flow becomes:
+```
+Client
+  ↓
+Istio
+  ↓
+API Gateway
+  ↓
+vLLM models
+  ↓
+GPU
+```
